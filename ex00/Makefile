@@ -13,7 +13,7 @@ WHITE='\033[0;97m'
 PINK  = '\033[35m'
 
 # Program Name
-NAME = Bureaucrat
+NAME = convert
 
 # Compilera
 CC = c++
