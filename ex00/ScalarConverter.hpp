@@ -22,6 +22,17 @@
 # define WHITE "\033[37m"
 # define RESET "\033[0m"
 
+/*
+	Clean overflow and invalid check
+		INT_MAX, INT_MIN, FLT_MAX, FLT_MIN
+	Double has bigger bytes
+		double >=53 bits of precision
+		int 32 bits
+		char 8 bits
+		float 24 bits
+	Handle all numeric forms
+		strtod handles sign, decimal, exponent notation and leading/trailing spaces
+*/
 class ScalarConverter
 {
 	private:
