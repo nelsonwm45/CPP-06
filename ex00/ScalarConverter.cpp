@@ -7,34 +7,22 @@
 bool ScalarConverter::isPseudoFloat(const std::string &literal)
 {
 	if (literal == "nanf")
-	{
 		return (true);
-	}
 	if (literal == "+inff")
-	{
 		return (true);
-	}
 	if (literal == "-inff")
-	{
 		return (true);
-	}
 	return (false);
 }
 
 bool ScalarConverter::isPseudoDouble(const std::string &literal)
 {
 	if (literal == "nan")
-	{
 		return (true);
-	}
 	if (literal == "+inf")
-	{
 		return (true);
-	}
 	if (literal == "-inf")
-	{
 		return (true);
-	}
 	return (false);
 }
 
@@ -42,45 +30,31 @@ bool ScalarConverter::isPseudoDouble(const std::string &literal)
 bool ScalarConverter::isChar(const std::string &literal)
 {
 	if (literal.size() != 1)
-	{
 		return (false);
-	}
 	unsigned char c = static_cast<unsigned char>(literal[0]);
 
 	if (std::isprint(c) == 0)
-	{
 		return (false);
-	}
 	if (std::isdigit(c) != 0)
-	{
 		return (false);
-	}
 	return (true);
 }
 
 bool ScalarConverter::isInt(const std::string &literal)
 {
 	if (literal.empty())
-	{
 		return (false);
-	}
 	size_t i = 0;
 
 	if (literal[i] == '+' || literal[i] == '-')
-	{
 		i++;
-	}
 	if (i >= literal.size())
-	{
 		return (false);
-	}
 	while (i < literal.size())
 	{
 		unsigned char c = static_cast<unsigned char>(literal[i]);
 		if (std::isdigit(c) == 0)
-		{
 			return (false);
-		}
 		i++;
 	}
 	return (true);
@@ -90,30 +64,20 @@ bool ScalarConverter::isInt(const std::string &literal)
 bool ScalarConverter::isFloat(const std::string &literal)
 {
 	if (literal.size() < 2)
-	{
 		return (false);
-	}
 	if (literal[literal.size() - 1] != 'f')
-	{
 		return (false);
-	}
 
 	std::string core = literal.substr(0, literal.size() - 1);
 
 	if (core.empty())
-	{
 		return (false);
-	}
 
 	size_t i = 0;
 	if (core[i] == '+' || core[i] == '-')
-	{
 		i++;
-	}
 	if (i >= core.size())
-	{
 		return (false);
-	}
 
 	int dots = 0;
 	bool hasDigit = false;
@@ -138,13 +102,9 @@ bool ScalarConverter::isFloat(const std::string &literal)
 	}
 
 	if (dots != 1)
-	{
 		return (false);
-	}
 	if (hasDigit == false)
-	{
 		return (false);
-	}
 	return (true);
 }
 
@@ -152,24 +112,16 @@ bool ScalarConverter::isFloat(const std::string &literal)
 bool ScalarConverter::isDouble(const std::string &literal)
 {
 	if (literal.empty())
-	{
 		return (false);
-	}
 
 	if (literal[literal.size() - 1] == 'f')
-	{
 		return (false);
-	}
 
 	size_t i = 0;
 	if (literal[i] == '+' || literal[i] == '-')
-	{
 		i++;
-	}
 	if (i >= literal.size())
-	{
 		return (false);
-	}
 
 	int dots = 0;
 	bool hasDigit = false;
@@ -194,42 +146,26 @@ bool ScalarConverter::isDouble(const std::string &literal)
 	}
 
 	if (dots != 1)
-	{
 		return (false);
-	}
 	if (hasDigit == false)
-	{
 		return (false);
-	}
 	return (true);
 }
 
 ScalarConverter::LiteralType ScalarConverter::classify(const std::string &literal)
 {
 	if (isPseudoFloat(literal) == true)
-	{
 		return (TYPE_PSEUDO_F);
-	}
 	if (isPseudoDouble(literal) == true)
-	{
 		return (TYPE_PSEUDO_D);
-	}
 	if (isChar(literal) == true)
-	{
 		return (TYPE_CHAR);
-	}
 	if (isInt(literal) == true)
-	{
 		return (TYPE_INT);
-	}
 	if (isFloat(literal) == true)
-	{
 		return (TYPE_FLOAT);
-	}
 	if (isDouble(literal) == true)
-	{
 		return (TYPE_DOUBLE);
-	}
 	return (TYPE_INVALID);
 }
 
@@ -476,9 +412,7 @@ bool ScalarConverter::parseFloatStrict(const std::string &literal, float &out)
 		return (true);
 	}
 	if (d < -FLT_MAX || d > FLT_MAX)
-	{
 		return (false);
-	}
 	out = static_cast<float>(d);
 	return (true);
 }
