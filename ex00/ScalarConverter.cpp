@@ -64,9 +64,9 @@ bool ScalarConverter::isInt(const std::string &literal)
 // float: optional sign, digits + one '.', ending with 'f'
 bool ScalarConverter::isFloat(const std::string &literal)
 {
-	if (literal.size() < 2)
+	if (literal.size() < 2) // at least 2 words
 		return (false);
-	if (literal[literal.size() - 1] != 'f')
+	if (literal[literal.size() - 1] != 'f') // trailing f
 		return (false);
 
 	std::string core = literal.substr(0, literal.size() - 1);
@@ -86,7 +86,6 @@ bool ScalarConverter::isFloat(const std::string &literal)
 	while (i < core.size())
 	{
 		unsigned char ch = static_cast<unsigned char>(core[i]);
-
 		if (ch == '.')
 		{
 			dots++;
@@ -364,6 +363,14 @@ void ScalarConverter::convert(const std::string &literal)
 // PARSER
 // =============================================================================
 
+/*
+	std::strtol(const char*, char** endptr, int base) parses a signed long in the given base (below is 10)
+		It skips leading whitespace.
+		Accepts an optional +/-.
+		Reads as many base-10 digits as possible.
+		Sets *endptr to where it stopped.
+		On overflow/underflow, it returns LONG_MAX/LONG_MIN and sets errno = ERANGE.
+*/
 bool ScalarConverter::parseIntStrict(const std::string &literal, int &out)
 {
 	char *end = 0;
@@ -371,12 +378,18 @@ bool ScalarConverter::parseIntStrict(const std::string &literal, int &out)
 
 	long v = std::strtol(literal.c_str(), &end, 10);
 
+	// If no character consumed, str doesnt start with valid number
 	if (end == literal.c_str())
 		return (false);
+	
 	if (*end != '\0')
 		return (false);
+
+	// strtol detected overflow/underflow for long.
 	if (errno == ERANGE)
 		return (false);
+	
+	// check for overflow/underflow for int.
 	if (v < INT_MIN || v > INT_MAX)
 		return (false);
 	out = static_cast<int>(v);
@@ -511,6 +524,14 @@ void ScalarConverter::printIntFromDouble(double d)
 	return;
 }
 
+/*
+	std::cout.setf(std::ios::fixed);
+		Sets the floatfield of cout to fixed notation.
+		Numbers print like 123.4 instead of possibly switching to scientific like 1.234e+02
+	std::setprecision(1)
+		With fixed in effect, the precision means digits after the decimal point.
+		So you get exactly one digit after the dot (e.g., 42.0, 3.1, -7.0).
+*/
 void ScalarConverter::printFloatFromDouble(double d)
 {
 	if (std::isnan(d) != 0)

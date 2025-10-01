@@ -6,7 +6,9 @@
 		allows you to convert any pointer type to any other pointer type
 			(Dangerous and doesn't perform safety check)
 			avoid for class hierarchies
-		
+		no runtime checks and almost no compile-time safety
+		does not change the underlying bytes in a meaningful way
+		only changes how those bytes are interpreted.
 
 	uniptr_t -> size is big enough to store a pointer without data loss
 	
