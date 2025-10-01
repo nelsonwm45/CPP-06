@@ -40,6 +40,7 @@ bool ScalarConverter::isChar(const std::string &literal)
 	return (true);
 }
 
+// Int: Optional signs, all digits.
 bool ScalarConverter::isInt(const std::string &literal)
 {
 	if (literal.empty())

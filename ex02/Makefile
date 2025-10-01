@@ -23,7 +23,7 @@ RM = rm -f
 
 # Source and Object
 SRCS =	main.cpp \
-		helper.cpp \
+		Helper.cpp \
 		Base.cpp \
 
 

@@ -48,11 +48,11 @@ void	identify(Base *p)
 		return ;
 	}
 	if (dynamic_cast<A*>(p) != 0)
-		std::cout << "[*p]: I'm A" << std::endl;
+		std::cout << "A" << std::endl;
 	else if (dynamic_cast<B*>(p) != 0)
-		std::cout << "[*p]: I'm B" << std::endl;
+		std::cout << "B" << std::endl;
 	else if (dynamic_cast<C*>(p) != 0)
-		std::cout << "[*p]: I'm C" << std::endl;
+		std::cout << "C" << std::endl;
 	else
 		std::cout << "Unknown type" << std::endl;
 }
@@ -60,6 +60,7 @@ void	identify(Base *p)
 // Reference cast: succeeds, or throws std::bad_cast on failure.
 void	identify(Base &p)
 {
+	// Check for A
 	try
 	{
 		(void)dynamic_cast<A&>(p);
@@ -67,9 +68,9 @@ void	identify(Base &p)
 		return;
 	}
 	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
+	{}
+
+	// Check for B
 	try
 	{
 		(void)dynamic_cast<B&>(p);
@@ -77,9 +78,9 @@ void	identify(Base &p)
 		return;
 	}
 	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
+	{}
+	
+	// Check for C
 	try
 	{
 		(void)dynamic_cast<C&>(p);
@@ -87,9 +88,7 @@ void	identify(Base &p)
 		return;
 	}
 	catch(const std::exception& e)
-	{
-		std::cerr << e.what() << '\n';
-	}
+	{}
 
 	std::cout << "Unknown Type" << std::endl;
 	return ;

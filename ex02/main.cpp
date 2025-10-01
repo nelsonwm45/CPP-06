@@ -6,7 +6,7 @@
 
 int main()
 {
-	Base * p = generate();
+	Base *p = generate();
 
 	std::cout << "identify(Base*): ";
 	identify(p);
