@@ -13,7 +13,9 @@
 #include <string>
 #include <iostream>
 #include <cmath>
+#include <stdint.h>
 
+struct Data;
 
 class Serializer
 {
@@ -24,9 +26,9 @@ class Serializer
 		Serializer	&operator=(const Serializer &other);
 
 	public:
-		uintptr_t serialize(Data* ptr);
+		static uintptr_t serialize(Data* ptr);
+		static Data* deserialize(uintptr_t raw);
 
+};
 
-
-}
 #endif
