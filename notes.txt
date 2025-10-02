@@ -1,0 +1,49 @@
+C-style cast: (T)x (and functional T(x))
+    int i = (int)3.7; // ambiguous style; avoid in new code
+Automatic conversions the compiler knows are safe enough (e.g., int → double, derived* → base*).
+Cost/checks: Compile-time; no runtime cost.
+
+
+static_cast<T>(x)
+Compile-time checked conversions the compiler “understands.”
+    Numeric conversions (with possible narrowing).
+    Upcast/downcast within the same inheritance chain (downcast is unchecked).
+    Void pointer to typed pointer (and back) when appropriate.
+Failure: Compile error if impossible; downcast may be wrong at runtime (no check).
+Use for: Clear, safe numeric/related conversions; base/derived when you’re sure.
+    double d = 3.7;
+    int i = static_cast<int>(d);      // truncates
+    Base *b = static_cast<Base*>(dp); // OK if dp actually points to a Derived
+
+
+const_cast<T>(x)
+Adds or removes const/volatile qualifiers.
+Compile error if not just cv-qualification.
+    void takes_char(char *p);
+    const char *pc = "hi";    // string literal is const data
+    // takes_char(const_cast<char*>(pc)); // writing would be UB; avoid
+
+
+reinterpret_cast<T>(x)
+Reinterpret the same bits as another type (low-level).
+Checks: None; no safety.
+Use for (carefully):
+    Pointer ↔ integer round-trip with uintptr_t.
+    Printing an integer as a pointer-looking value.
+    Accessing raw bytes via unsigned char*.
+        #include <stdint.h>
+        S s;
+        uintptr_t raw = reinterpret_cast<uintptr_t>(&s);
+        S *ps = reinterpret_cast<S*>(raw); // OK if s is still alive
+
+
+
+dynamic_cast<T>(x) (polymorphic only)
+Runtime-checked cast across a polymorphic hierarchy (needs at least one virtual function).
+Failure: Returns 0 for pointers; throws std::bad_cast for references.
+Cost: Uses RTTI; slight runtime cost.
+Use for: Safe downcasts when you are not sure of the dynamic type.
+    struct Base { virtual ~Base() {} };
+    struct Der : Base {};
+    Base *b = new Der;
+    Der  *d = dynamic_cast<Der*>(b); // d == non-null; checked
